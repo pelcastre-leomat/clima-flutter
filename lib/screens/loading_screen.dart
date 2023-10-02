@@ -1,6 +1,11 @@
+import 'dart:convert';
+
+import 'package:clima_flutter/services/networking.dart';
 import 'package:flutter/material.dart';
 import 'package:clima_flutter/location.dart';
-import 'package:http/http.dart' as http;
+
+
+const String apiKey = "46d7418e90fd406788780155232909";
 
 class LoadingScreen extends StatefulWidget {
   @override
@@ -9,11 +14,14 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen> {
 
+  double latitude = 0;
+  double longitude = 0;
+
   @override
   void initState() {
     // TODO: implement initState
-    super.initState();
     getLocation();
+    super.initState();
   }
 
   void getLocation() async {
@@ -21,22 +29,15 @@ class _LoadingScreenState extends State<LoadingScreen> {
     await location.getCurrentLocation();
     latitude = location.latitude;
     longitude = location.longitude;
-  }
-  
-  void getData() async{
-    http.Response response = await http.get(Uri.parse("http://api.weatherapi.com/v1/current.json?key=46d7418e90fd406788780155232909&q=${latitude},${longitude}&aqi=no"));
-    if(response.statusCode == 200){
-      String data = response.body;
-      print(response.body);
-    }else{
-      print(response.statusCode);
-    }
+    NetworkHelper networkHelper = NetworkHelper(url: "http://api.weatherapi.com/v1/current.json?key=${apiKey}&q=$latitude,${longitude}&aqi=no");
+    networkHelper.getData();
   }
 
   @override
   Widget build(BuildContext context) {
-    getData();
-    return Scaffold(
+    return const Scaffold(
     );
   }
 }
+
+
