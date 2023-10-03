@@ -50,8 +50,3 @@ class _CityScreenState extends State<CityScreen> {
   }
 }
 
-// var decodedData = jsonDecode(data);
-// double temp_c = decodedData['current']['temp_c'];
-// int currCond = decodedData['current']['condition']['code'];
-// String cityName = decodedData['location']['name'];
-
