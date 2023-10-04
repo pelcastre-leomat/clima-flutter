@@ -1,20 +1,38 @@
+import 'package:clima_flutter/services/networking.dart';
+import 'package:clima_flutter/location.dart';
+
+
+
+const String apiKey = "46d7418e90fd406788780155232909";
+const weatherapiURL = "http://api.weatherapi.com/v1/current.json";
+
 class WeatherModel {
+
+  Future<dynamic> getLocationWeather() async {
+    Location location = Location();
+    await location.getCurrentLocation();
+    NetworkHelper networkHelper = NetworkHelper(
+        url: "${weatherapiURL}?key=${apiKey}&q=${location.latitude},${location.longitude}&aqi=no");
+
+    return await networkHelper.getData();
+  }
+
   String getWeatherIcon(int condition) {
-    if (condition < 300) {
-      return '🌩';
-    } else if (condition < 400) {
-      return '🌧';
-    } else if (condition < 600) {
-      return '☔️';
-    } else if (condition < 700) {
-      return '☃️';
-    } else if (condition < 800) {
-      return '🌫';
-    } else if (condition == 800) {
+    if (condition == 1000) {
       return '☀️';
-    } else if (condition <= 804) {
+    }else if (condition <= 1006) {
       return '☁️';
-    } else {
+    } else if (condition < 1063) {
+      return '🌫';
+    } else if (condition < 1186) {
+      return '🌩';
+    } else if (condition < 1192) {
+      return '🌧';
+    } else if (condition < 1198) {
+      return '☔️';
+    } else if (condition < 1137) {
+      return '☃️';
+    }else {
       return '🤷‍';
     }
   }
