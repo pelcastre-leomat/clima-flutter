@@ -38,3 +38,26 @@ const kTextFieldInputDecoration = InputDecoration(
       borderSide: BorderSide.none,
     )
 );
+
+const TextStyle kBigTempTextStyle = TextStyle(
+  fontWeight: FontWeight.w400,
+  fontSize: 170,
+  color: Colors.black,
+);
+
+const TextStyle kSmallTitleStyle = TextStyle(
+  fontWeight: FontWeight.w900,
+  fontSize: 15
+);
+
+const double kElementBorderRadius = 10;
+
+const kForecastTempStyle = TextStyle(
+  fontSize: 15,
+  fontWeight: FontWeight.w600,
+);
+
+const kForecastDayStyle = TextStyle(
+  fontSize: 12,
+  fontWeight: FontWeight.w500,
+);
