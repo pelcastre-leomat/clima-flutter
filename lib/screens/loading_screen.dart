@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:clima_flutter/screens/location_screen_redesign.dart';
 import 'package:flutter/material.dart';
 import 'location_screen.dart';
 import 'package:clima_flutter/services/weather.dart';
@@ -22,7 +23,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void getLocationData() async {
     var weatherData = await WeatherModel().getLocationWeather().timeout(const Duration(seconds: 10));
     Navigator.push(context,MaterialPageRoute(builder: (context) {
-      return LocationScreen(locationWeather: weatherData,);
+      return LocationScreenRedesign(locationWeather: weatherData,);
     }));
   }
 

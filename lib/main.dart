@@ -13,18 +13,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
 
       debugShowCheckedModeBanner: false,
-      // theme: ThemeData(
-      //   textTheme: TextTheme(
-      //     bodyLarge: TextStyle(),
-      //     bodyMedium: TextStyle(),
-      //   ).apply(
-      //     bodyColor: Colors.black,
-      //     displayColor: Colors.black
-      //   )
-      // ),
-      //TODO
-      home: LocationScreenRedesign(),
-      // home: LoadingScreen(),
+      home: LoadingScreen(),
     );
   }
 }

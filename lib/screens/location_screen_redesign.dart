@@ -4,23 +4,53 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class LocationScreenRedesign extends StatefulWidget{
-  // LocationScreenRedesign({required this.locationWeather});
-  //
-  // final locationWeather;
+  LocationScreenRedesign({required this.locationWeather});
+
+  final locationWeather;
   @override
   _LocationScreenStateRedesign createState() => _LocationScreenStateRedesign();
 }
 
 class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
   WeatherModel weatherModel = WeatherModel();
+  int temp = 0;
+  int wind = 0;
+  double humidity = 0;
+  double visibility = 0;
+  String conditionText = "";
+  String weatherIcon = "";
+  String weatherMessage = "";
+  String cityName = "New York";
+
   @override
   void initState() {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
-    super.initState();
+    updateUI(widget.locationWeather);
   }
+
+  void updateUI(dynamic weatherParser){
+    setState(() {
+      if(weatherParser == null){
+        temp= 0;
+        weatherIcon = "Error";
+        weatherMessage = "Unable to fetch weather data";
+        cityName = "";
+        return;
+      }
+      temp = weatherParser.getTemp();
+      cityName = weatherParser.getName();
+      // var condition = weatherParser.getCondition();
+      conditionText = weatherParser.getCondition();
+      wind = weatherParser.getWind();
+      // humidity = weatherParser.getHumidity();
+      // visibility = weatherParser.getVisibility();
+      // weatherIcon = weatherModel.getWeatherIcon(condition);
+      // weatherMessage = weatherModel.getMessage(temp.toInt());
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(weatherModel.getLocationWeather());
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
@@ -49,7 +79,7 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                     ),
                     Container(
                       child: Text(
-                        "Paris",
+                        cityName,
                         style: TextStyle(
                           fontSize: 23,
                           fontWeight: FontWeight.w900,
@@ -90,7 +120,7 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
               ),
               Container(
                 child: Text(
-                  "Sunny",
+                  conditionText,
                   style: TextStyle(
                     fontWeight: FontWeight.w700,
                     fontSize: 17,
@@ -100,7 +130,7 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
               Container(
                 height: 185,
                 child: Text(
-                  "31°",
+                  "${temp}°",
                   style: kBigTempTextStyle,
                 ),
               ),
@@ -156,10 +186,10 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: const [
+                  children: [
                     ConditionStatusColumn(
                       icon: Icons.waves,
-                      conditionValue: 4,
+                      conditionValue: wind.toDouble(),
                       toInt: true,
                       conditionUnit: "km/h",
                       condition: "Wind",
@@ -167,19 +197,19 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                     ),
                     ConditionStatusColumn(
                       icon: Icons.water_drop_outlined,
-                      conditionValue: 48,
+                      conditionValue: humidity,
                       toInt: true,
                       conditionUnit: "%",
                       condition: "Humidity",
                       color: Color(0xffffe142),
                     ),
                     ConditionStatusColumn(
-                        icon: Icons.remove_red_eye_outlined,
-                        conditionValue: 1.6,
+                      icon: Icons.remove_red_eye_outlined,
+                      conditionValue: visibility,
                       toInt: false,
                       conditionUnit: "km",
-                        condition: "Visibility",
-                        color: Color(0xffffe142),
+                      condition: "Visibility",
+                      color: Color(0xffffe142),
                     ),
                   ],
                 ),

@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:clima_flutter/fakeClasses/fakeNetworking.dart';
 import 'package:clima_flutter/services/networking.dart';
 import 'package:clima_flutter/location.dart';
+import 'package:clima_flutter/services/weather_parser.dart';
 import 'package:flutter/services.dart';
 
 
@@ -20,7 +21,11 @@ class WeatherModel {
     // return await networkHelper.getData();
 
     FakeNetworkHelper fakeNetworkHelper = FakeNetworkHelper();
-    return await fakeNetworkHelper.getData();
+    dynamic weatherData = await fakeNetworkHelper.getData();
+    if(weatherData == null){
+      return null;
+    }
+    return WeatherParser(weatherData: weatherData);
   }
 
   Future<dynamic> getCityWeather(String cityName) async{
@@ -62,4 +67,6 @@ class WeatherModel {
       return 'Bring a 🧥 just in case';
     }
   }
+
+
 }

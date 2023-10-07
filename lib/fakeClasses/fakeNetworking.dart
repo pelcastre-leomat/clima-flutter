@@ -12,6 +12,6 @@ class FakeNetworkHelper implements NetworkHelper{
   Future getData() async {
     http.Response response = await http.get(Uri.parse(url));
     var data = jsonDecode(response.body);
-    debugPrint(data.toString());
+    return data;
   }
 }
