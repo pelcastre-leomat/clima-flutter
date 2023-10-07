@@ -1,5 +1,9 @@
+import 'dart:convert';
+
+import 'package:clima_flutter/fakeClasses/fakeNetworking.dart';
 import 'package:clima_flutter/services/networking.dart';
 import 'package:clima_flutter/location.dart';
+import 'package:flutter/services.dart';
 
 
 //46d7418e90fd406788780155232909
@@ -9,12 +13,14 @@ const weatherapiURL = "http://api.weatherapi.com/v1/current.json";
 class WeatherModel {
 
   Future<dynamic> getLocationWeather() async {
-    Location location = Location();
-    await location.getCurrentLocation().timeout(const Duration(seconds: 5));
-    NetworkHelper networkHelper = NetworkHelper(
-        url: "${weatherapiURL}?key=${apiKey}&q=${location.latitude},${location.longitude}&aqi=no");
+    // Location location = Location();
+    // await location.getCurrentLocation().timeout(const Duration(seconds: 5));
+    // NetworkHelper networkHelper = NetworkHelper(
+    //     url: "${weatherapiURL}?key=${apiKey}&q=${location.latitude},${location.longitude}&aqi=no");
+    // return await networkHelper.getData();
 
-    return await networkHelper.getData();
+    FakeNetworkHelper fakeNetworkHelper = FakeNetworkHelper();
+    return await fakeNetworkHelper.getData();
   }
 
   Future<dynamic> getCityWeather(String cityName) async{

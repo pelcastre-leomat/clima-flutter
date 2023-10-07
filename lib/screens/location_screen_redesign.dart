@@ -12,6 +12,7 @@ class LocationScreenRedesign extends StatefulWidget{
 }
 
 class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
+  WeatherModel weatherModel = WeatherModel();
   @override
   void initState() {
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
@@ -19,6 +20,7 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
   }
   @override
   Widget build(BuildContext context) {
+    print(weatherModel.getLocationWeather());
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
