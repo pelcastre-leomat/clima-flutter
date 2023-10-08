@@ -1,4 +1,5 @@
 import 'package:clima_flutter/services/weather.dart';
+import 'package:clima_flutter/services/weather_parser.dart';
 import 'package:clima_flutter/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -14,9 +15,9 @@ class LocationScreenRedesign extends StatefulWidget{
 class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
   WeatherModel weatherModel = WeatherModel();
   int temp = 0;
-  int wind = 0;
-  double humidity = 0;
-  double visibility = 0;
+  num wind = 0;
+  num humidity = 0;
+  num visibility = 0;
   String conditionText = "";
   String weatherIcon = "";
   String weatherMessage = "";
@@ -28,9 +29,10 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
     updateUI(widget.locationWeather);
   }
 
-  void updateUI(dynamic weatherParser){
+  void updateUI(dynamic weatherData){
+    WeatherParser weatherParser = WeatherParser(weatherData: weatherData);
     setState(() {
-      if(weatherParser == null){
+      if(weatherData == null){
         temp= 0;
         weatherIcon = "Error";
         weatherMessage = "Unable to fetch weather data";
@@ -42,8 +44,8 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
       // var condition = weatherParser.getCondition();
       conditionText = weatherParser.getCondition();
       wind = weatherParser.getWind();
-      // humidity = weatherParser.getHumidity();
-      // visibility = weatherParser.getVisibility();
+      humidity = weatherParser.getHumidity();
+      visibility = weatherParser.getVisibility();
       // weatherIcon = weatherModel.getWeatherIcon(condition);
       // weatherMessage = weatherModel.getMessage(temp.toInt());
     });
@@ -189,8 +191,7 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                   children: [
                     ConditionStatusColumn(
                       icon: Icons.waves,
-                      conditionValue: wind.toDouble(),
-                      toInt: true,
+                      conditionValue: wind,
                       conditionUnit: "km/h",
                       condition: "Wind",
                       color: Color(0xffffe142),
@@ -198,7 +199,6 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                     ConditionStatusColumn(
                       icon: Icons.water_drop_outlined,
                       conditionValue: humidity,
-                      toInt: true,
                       conditionUnit: "%",
                       condition: "Humidity",
                       color: Color(0xffffe142),
@@ -206,7 +206,6 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                     ConditionStatusColumn(
                       icon: Icons.remove_red_eye_outlined,
                       conditionValue: visibility,
-                      toInt: false,
                       conditionUnit: "km",
                       condition: "Visibility",
                       color: Color(0xffffe142),
@@ -299,11 +298,10 @@ class ForecastCardWidget extends StatelessWidget {
 }
 
 class ConditionStatusColumn extends StatelessWidget {
-  const ConditionStatusColumn({super.key, required this.icon, required this.conditionValue, required this.toInt, required this.conditionUnit, required this.condition, required this.color});
+  const ConditionStatusColumn({super.key, required this.icon, required this.conditionValue, required this.conditionUnit, required this.condition, required this.color});
 
   final IconData icon;
-  final double conditionValue;
-  final bool toInt;
+  final num conditionValue;
   final String conditionUnit;
   final String condition;
   final Color color;
@@ -322,7 +320,7 @@ class ConditionStatusColumn extends StatelessWidget {
           height: 10,
         ),
         Text(
-          "${toInt ? conditionValue.toInt():conditionValue}${conditionUnit}",
+          "${conditionValue is int ? conditionValue.toInt(): conditionValue.toDouble()}${conditionUnit}",
           style: TextStyle(
             color: color,
             fontSize: 20,

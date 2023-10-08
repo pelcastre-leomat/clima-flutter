@@ -21,11 +21,11 @@ class WeatherModel {
     // return await networkHelper.getData();
 
     FakeNetworkHelper fakeNetworkHelper = FakeNetworkHelper();
-    dynamic weatherData = await fakeNetworkHelper.getData();
-    if(weatherData == null){
-      return null;
-    }
-    return WeatherParser(weatherData: weatherData);
+    return await fakeNetworkHelper.getData();
+    // if(weatherData == null){
+    //   return null;
+    // }
+    // return WeatherParser(weatherData: weatherData);
   }
 
   Future<dynamic> getCityWeather(String cityName) async{

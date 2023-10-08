@@ -17,16 +17,16 @@ class WeatherParser{
     return weatherData["current"]["condition"]["text"];
   }
 
-  int getWind(){
+  num getWind(){
     return weatherData["current"]["wind_kph"];
   }
 
-  double getHumidity(){
+  num getHumidity(){
     return weatherData["current"]["humidity"];
   }
 
-  double getVisibility(){
-    return weatherData["current"]["wind_kph"];
+  num getVisibility(){
+    return weatherData["current"]["vis_km"];
   }
 
   int getMaxTemp(){
