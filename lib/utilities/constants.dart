@@ -50,6 +50,13 @@ const TextStyle kSmallTitleStyle = TextStyle(
   fontSize: 15
 );
 
+const kDailySummaryTempStyle = TextStyle(
+  color: Colors.black,
+  height: 1.2,
+  fontSize: 14,
+  fontWeight: FontWeight.w600,
+);
+
 const double kElementBorderRadius = 10;
 
 const kForecastTempStyle = TextStyle(

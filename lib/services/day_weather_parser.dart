@@ -1,7 +1,5 @@
-import 'package:clima_flutter/fakeClasses/fakeNetworking.dart';
-
-class WeatherParser{
-  WeatherParser({required this.weatherData});
+class DayWeatherParser{
+  DayWeatherParser({required this.weatherData});
 
   final dynamic weatherData;
 
@@ -29,11 +27,15 @@ class WeatherParser{
     return weatherData["current"]["vis_km"];
   }
 
-  int getMaxTemp(){
+  num getMaxTemp(){
     return weatherData["forecast"]["forecastday"][0]["day"]["maxtemp_c"];
   }
 
-  int getMinTemp(){
+  num getMinTemp(){
     return weatherData["forecast"]["forecastday"][0]["day"]["mintemp_c"];
+  }
+
+  num getFeelsLikeTemp(){
+    return weatherData["current"]["feelslike_c"];
   }
 }

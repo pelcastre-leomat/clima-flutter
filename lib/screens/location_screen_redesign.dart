@@ -1,5 +1,6 @@
+import 'package:clima_flutter/services/forecast_parser.dart';
 import 'package:clima_flutter/services/weather.dart';
-import 'package:clima_flutter/services/weather_parser.dart';
+import 'package:clima_flutter/services/day_weather_parser.dart';
 import 'package:clima_flutter/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -18,6 +19,9 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
   num wind = 0;
   num humidity = 0;
   num visibility = 0;
+  num maxTemp = 0;
+  num minTemp = 0;
+  num feelsLikeTemp = 0;
   String conditionText = "";
   String weatherIcon = "";
   String weatherMessage = "";
@@ -30,7 +34,9 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
   }
 
   void updateUI(dynamic weatherData){
-    WeatherParser weatherParser = WeatherParser(weatherData: weatherData);
+    DayWeatherParser dayWeatherParser = DayWeatherParser(weatherData: weatherData);
+    ForecastParser forecastParser = ForecastParser(weatherData: weatherData);
+
     setState(() {
       if(weatherData == null){
         temp= 0;
@@ -39,13 +45,19 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
         cityName = "";
         return;
       }
-      temp = weatherParser.getTemp();
-      cityName = weatherParser.getName();
+      temp = dayWeatherParser.getTemp();
+      cityName = dayWeatherParser.getName();
       // var condition = weatherParser.getCondition();
-      conditionText = weatherParser.getCondition();
-      wind = weatherParser.getWind();
-      humidity = weatherParser.getHumidity();
-      visibility = weatherParser.getVisibility();
+      conditionText = dayWeatherParser.getCondition();
+      wind = dayWeatherParser.getWind();
+      humidity = dayWeatherParser.getHumidity();
+      visibility = dayWeatherParser.getVisibility();
+      maxTemp = dayWeatherParser.getMaxTemp();
+      minTemp = dayWeatherParser.getMinTemp();
+      feelsLikeTemp = dayWeatherParser.getFeelsLikeTemp();
+
+      print(forecastParser.getNDays());
+
       // weatherIcon = weatherModel.getWeatherIcon(condition);
       // weatherMessage = weatherModel.getMessage(temp.toInt());
     });
@@ -62,22 +74,25 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
           child: Column(
             children: [
               SizedBox(
-                height: 15,
+                height: 10,
               ),
               Padding(
                 padding: EdgeInsets.symmetric(
-                  horizontal: 5
+                  horizontal: 10
                 ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    Container(
-                      child: Icon(
+                    IconButton(
+                      icon: Icon(
                         Icons.refresh,
                         size: 30,
-                        color: Colors.black,
                       ),
+                      onPressed: () async {
+                        var weatherData = await weatherModel.getLocationWeather();
+                        updateUI(weatherData);
+                      },
                     ),
                     Container(
                       child: Text(
@@ -88,13 +103,15 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                         ),
                       ),
                     ),
-                    Container(
-                      child: Icon(
+                    IconButton(
+                      icon: Icon(
                         Icons.near_me,
-                        color: Colors.black,
                         size: 30,
                       ),
-                    )
+                      onPressed: (){
+
+                      },
+                    ),
                   ],
                 ),
               ),
@@ -146,25 +163,20 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                     Container(
                       width: double.infinity,
                       child: Text(
-                        "Daily Summary",
+                        "Daily Temperature Summary",
                         style: kSmallTitleStyle,
                       ),
                     ),
                     SizedBox(
-                      height: 10,
+                      height: 15,
                     ),
                     Container(
                       width: double.infinity,
                       child:Text(
-                        "Now it feels like +35°, actually +31°\n"
-                            "It feels hot because of irect sun.\n"
-                            "Today the temperature fell in the range from +31° to +27°",
-                        style: TextStyle(
-                          color: Colors.black,
-                          height: 1.2,
-                          fontSize: 13,
-                          fontWeight: FontWeight.w500,
-                        ),
+                        "Current temperature of ${temp} feels like ${feelsLikeTemp}.\n"
+                            "Temperatures will reach as high as ${maxTemp}° and"
+                            " as low as ${minTemp}°",
+                        style: kDailySummaryTempStyle,
                       ),
                     ),
                     SizedBox(

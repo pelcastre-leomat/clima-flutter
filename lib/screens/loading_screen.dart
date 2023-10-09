@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:clima_flutter/screens/location_screen_redesign.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'location_screen.dart';
 import 'package:clima_flutter/services/weather.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -17,6 +18,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void initState() {
     // TODO: implement initState
     getLocationData();
+    SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     super.initState();
   }
 

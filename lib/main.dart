@@ -11,7 +11,13 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
 
     return MaterialApp(
-
+      theme: ThemeData.light().copyWith(
+        textTheme: TextTheme(
+          bodyMedium: TextStyle(
+            color: Colors.black,
+          )
+        )
+      ),
       debugShowCheckedModeBanner: false,
       home: LoadingScreen(),
     );
