@@ -8,7 +8,7 @@ class DayWeatherParser{
   }
 
   int getTemp(){
-    return weatherData["current"]["temp_c"];
+    return weatherData["current"]["temp_c"].round();
   }
 
   String getCondition(){
@@ -16,11 +16,11 @@ class DayWeatherParser{
   }
 
   num getWind(){
-    return weatherData["current"]["wind_kph"];
+    return weatherData["current"]["wind_kph"].round();
   }
 
   num getHumidity(){
-    return weatherData["current"]["humidity"];
+    return weatherData["current"]["humidity"].round();
   }
 
   num getVisibility(){

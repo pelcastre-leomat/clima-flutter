@@ -9,7 +9,7 @@ import 'package:flutter/services.dart';
 
 //46d7418e90fd406788780155232909
 const String apiKey = "46d7418e90fd406788780155232909";
-const weatherapiURL = "http://api.weatherapi.com/v1/current.json";
+const weatherapiURL = "http://api.weatherapi.com/v1/forecast.json";
 
 class WeatherModel {
 
@@ -17,11 +17,11 @@ class WeatherModel {
     // Location location = Location();
     // await location.getCurrentLocation().timeout(const Duration(seconds: 5));
     // NetworkHelper networkHelper = NetworkHelper(
-    //     url: "${weatherapiURL}?key=${apiKey}&q=${location.latitude},${location.longitude}&aqi=no");
+    //     url: "${weatherapiURL}?key=${apiKey}&q=${location.latitude},${location.longitude}&days=3&aqi=no&alerts=no");
     // return await networkHelper.getData();
 
     FakeNetworkHelper fakeNetworkHelper = FakeNetworkHelper();
-    return await fakeNetworkHelper.getData();
+    return await fakeNetworkHelper.getData().timeout(Duration(seconds: 3));
   }
 
   Future<dynamic> getCityWeather(String cityName) async{

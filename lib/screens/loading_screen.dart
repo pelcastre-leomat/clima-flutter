@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:clima_flutter/screens/location_screen_redesign.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'error_screen.dart';
 import 'location_screen.dart';
 import 'package:clima_flutter/services/weather.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
@@ -22,11 +23,19 @@ class _LoadingScreenState extends State<LoadingScreen> {
     super.initState();
   }
 
+  //TODO Settings button should return to loading screen
   void getLocationData() async {
-    var weatherData = await WeatherModel().getLocationWeather().timeout(const Duration(seconds: 10));
-    Navigator.push(context,MaterialPageRoute(builder: (context) {
-      return LocationScreenRedesign(locationWeather: weatherData,);
-    }));
+    try{
+      var weatherData = await WeatherModel().getLocationWeather();
+      Navigator.push(context,MaterialPageRoute(builder: (context) {
+        return LocationScreenRedesign(locationWeather: weatherData,);
+      }));
+    }catch(e){
+      Navigator.push(context,MaterialPageRoute(builder: (context) {
+        return const ErrorScreen();
+      }));
+    }
+
   }
 
   @override

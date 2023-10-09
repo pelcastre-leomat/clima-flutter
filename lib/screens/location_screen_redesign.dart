@@ -1,3 +1,4 @@
+import 'package:clima_flutter/services/forecastDay.dart';
 import 'package:clima_flutter/services/forecast_parser.dart';
 import 'package:clima_flutter/services/weather.dart';
 import 'package:clima_flutter/services/day_weather_parser.dart';
@@ -6,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 class LocationScreenRedesign extends StatefulWidget{
-  LocationScreenRedesign({required this.locationWeather});
+  LocationScreenRedesign({super.key, required this.locationWeather});
 
   final locationWeather;
   @override
@@ -15,6 +16,8 @@ class LocationScreenRedesign extends StatefulWidget{
 
 class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
   WeatherModel weatherModel = WeatherModel();
+  List<ForecastDay> forecastDaysList = <ForecastDay>[];
+  //TODO Refactor to day class
   int temp = 0;
   num wind = 0;
   num humidity = 0;
@@ -29,6 +32,7 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
 
   @override
   void initState() {
+    super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
     updateUI(widget.locationWeather);
   }
@@ -36,7 +40,7 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
   void updateUI(dynamic weatherData){
     DayWeatherParser dayWeatherParser = DayWeatherParser(weatherData: weatherData);
     ForecastParser forecastParser = ForecastParser(weatherData: weatherData);
-
+    forecastDaysList = forecastParser.forecastList;
     setState(() {
       if(weatherData == null){
         temp= 0;
@@ -56,8 +60,6 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
       minTemp = dayWeatherParser.getMinTemp();
       feelsLikeTemp = dayWeatherParser.getFeelsLikeTemp();
 
-      print(forecastParser.getNDays());
-
       // weatherIcon = weatherModel.getWeatherIcon(condition);
       // weatherMessage = weatherModel.getMessage(temp.toInt());
     });
@@ -68,16 +70,16 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
     return Scaffold(
       body: Container(
         decoration: const BoxDecoration(
-          color: Color(0xFFFFE142),
+          color: kPrimaryColor,
         ),
         child: SafeArea(
           child: Column(
             children: [
-              SizedBox(
+              const SizedBox(
                 height: 10,
               ),
               Padding(
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   horizontal: 10
                 ),
                 child: Row(
@@ -85,7 +87,7 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.refresh,
                         size: 30,
                       ),
@@ -94,17 +96,15 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                         updateUI(weatherData);
                       },
                     ),
-                    Container(
-                      child: Text(
-                        cityName,
-                        style: TextStyle(
-                          fontSize: 23,
-                          fontWeight: FontWeight.w900,
-                        ),
+                    Text(
+                      cityName,
+                      style: const TextStyle(
+                        fontSize: 23,
+                        fontWeight: FontWeight.w900,
                       ),
                     ),
                     IconButton(
-                      icon: Icon(
+                      icon: const Icon(
                         Icons.near_me,
                         size: 30,
                       ),
@@ -115,7 +115,7 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                   ],
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 30,
               ),
               Container(
@@ -123,33 +123,26 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                   color: Colors.black,
                   borderRadius:BorderRadius.circular(20)
                 ),
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   vertical: 4,
                   horizontal: 15,
                 ),
-                child: Text(
+                child: const Text(
                   "Friday 20 January",
-                  style: TextStyle(
-                    color: Color(0xffFFE142),
-                  ),
+                  style: kTopDateStyle,
                 ),
               ),
-              SizedBox(
+              const SizedBox(
                 height: 15,
               ),
-              Container(
-                child: Text(
-                  conditionText,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 17,
-                  ),
-                ),
+              Text(
+                conditionText,
+                style: kConditionTextStyle,
               ),
-              Container(
+              SizedBox(
                 height: 185,
                 child: Text(
-                  "${temp}°",
+                  "$temp°",
                   style: kBigTempTextStyle,
                 ),
               ),
@@ -160,26 +153,26 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                 ),
                 child: Column(
                   children: [
-                    Container(
+                    const SizedBox(
                       width: double.infinity,
                       child: Text(
                         "Daily Temperature Summary",
                         style: kSmallTitleStyle,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 15,
                     ),
-                    Container(
+                    SizedBox(
                       width: double.infinity,
                       child:Text(
-                        "Current temperature of ${temp} feels like ${feelsLikeTemp}.\n"
-                            "Temperatures will reach as high as ${maxTemp}° and"
-                            " as low as ${minTemp}°",
+                        "Current temperature of $temp° feels like $feelsLikeTemp°.\n"
+                            "Temperatures will reach as high as $maxTemp° and"
+                            " as low as $minTemp°",
                         style: kDailySummaryTempStyle,
                       ),
                     ),
-                    SizedBox(
+                    const SizedBox(
                       height: 10,
                     ),
                   ],
@@ -187,10 +180,10 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
               ),
               Container(
                 width: double.infinity,
-                margin: EdgeInsets.symmetric(
+                margin: const EdgeInsets.symmetric(
                   horizontal: 30
                 ),
-                padding: EdgeInsets.symmetric(
+                padding: const EdgeInsets.symmetric(
                   vertical: 25,
                   horizontal: 5,
                 ),
@@ -206,21 +199,21 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                       conditionValue: wind,
                       conditionUnit: "km/h",
                       condition: "Wind",
-                      color: Color(0xffffe142),
+                      color: kPrimaryColor,
                     ),
                     ConditionStatusColumn(
                       icon: Icons.water_drop_outlined,
                       conditionValue: humidity,
                       conditionUnit: "%",
                       condition: "Humidity",
-                      color: Color(0xffffe142),
+                      color: kPrimaryColor,
                     ),
                     ConditionStatusColumn(
                       icon: Icons.remove_red_eye_outlined,
                       conditionValue: visibility,
                       conditionUnit: "km",
                       condition: "Visibility",
-                      color: Color(0xffffe142),
+                      color: kPrimaryColor,
                     ),
                   ],
                 ),
@@ -242,16 +235,26 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                         ),
                       ],
                     ),
-                    SizedBox(
-                      height: 10,
+                    const SizedBox(
+                      height: 20,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        ForecastCardWidget(),
-                        ForecastCardWidget(),
-                        ForecastCardWidget(),
-                        ForecastCardWidget(),
+                        //TODO Refactor ForecastCardWidget
+                        ForecastCardWidget(
+                          date: forecastDaysList[0].date,
+                          avgTemp: forecastDaysList[0].avgTemp,
+
+                        ),
+                        ForecastCardWidget(
+                          date: forecastDaysList[1].date,
+                          avgTemp: forecastDaysList[1].avgTemp,
+                        ),
+                        ForecastCardWidget(
+                          date: forecastDaysList[2].date,
+                          avgTemp: forecastDaysList[2].avgTemp,
+                        ),
                       ],
                     ),
                   ],
@@ -267,14 +270,16 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
 }
 
 class ForecastCardWidget extends StatelessWidget {
-  const ForecastCardWidget({
-    super.key,
-  });
+  const ForecastCardWidget({super.key, required this.date, required this.avgTemp});
+
+  final String date;
+  final int avgTemp;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.fromLTRB(8, 15, 8, 10),
+      width: 75,
+      padding: const EdgeInsets.fromLTRB(8, 15, 8, 10),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(kElementBorderRadius),
         border: Border.all(
@@ -285,22 +290,22 @@ class ForecastCardWidget extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            "26°",
+            "$avgTemp°",
             style: kForecastTempStyle,
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
-          Icon(
+          const Icon(
             Icons.sunny,
             color: Colors.black,
             size: 15,
           ),
-          SizedBox(
+          const SizedBox(
             height: 5,
           ),
           Text(
-            "21 Jan",
+            date,
             style: kForecastDayStyle,
           )
         ],
@@ -332,14 +337,14 @@ class ConditionStatusColumn extends StatelessWidget {
           height: 10,
         ),
         Text(
-          "${conditionValue is int ? conditionValue.toInt(): conditionValue.toDouble()}${conditionUnit}",
+          "${conditionValue is int ? conditionValue.toInt(): conditionValue.toDouble()}$conditionUnit",
           style: TextStyle(
             color: color,
             fontSize: 20,
             fontWeight: FontWeight.w600
           ),
         ),
-        SizedBox(
+        const SizedBox(
           height: 5,
         ),
         Text(

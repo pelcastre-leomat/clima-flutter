@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
 
+//const Color kPrimaryColor = Color(0xffffe142);
+const Color kPrimaryColor = Color(0xfffe64d4);
+
+
 const kTempTextStyle = TextStyle(
   fontFamily: 'Spartan MB',
   fontWeight: FontWeight.w600,
@@ -17,7 +21,8 @@ const kButtonTextStyle = TextStyle(
 );
 
 const kConditionTextStyle = TextStyle(
-  fontSize: 100.0,
+  fontWeight: FontWeight.w700,
+  fontSize: 17,
 );
 
 const kTextFieldInputDecoration = InputDecoration(
@@ -37,6 +42,10 @@ const kTextFieldInputDecoration = InputDecoration(
       ),
       borderSide: BorderSide.none,
     )
+);
+
+const kTopDateStyle = TextStyle(
+  color: kPrimaryColor,
 );
 
 const TextStyle kBigTempTextStyle = TextStyle(
@@ -67,4 +76,10 @@ const kForecastTempStyle = TextStyle(
 const kForecastDayStyle = TextStyle(
   fontSize: 12,
   fontWeight: FontWeight.w500,
+);
+
+const kErrorScreenStyle = TextStyle(
+  fontSize: 25,
+  fontWeight: FontWeight.w600,
+  color: Colors.black,
 );
