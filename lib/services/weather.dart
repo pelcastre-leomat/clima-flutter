@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'package:clima_flutter/fakeClasses/fakeNetworking.dart';
 import 'package:clima_flutter/services/networking.dart';
 import 'package:clima_flutter/location.dart';
-import 'package:clima_flutter/services/day_weather_parser.dart';
+import 'package:clima_flutter/services/current_day.dart';
 import 'package:flutter/services.dart';
 
 

@@ -1,7 +1,7 @@
 import 'package:clima_flutter/services/forecastDay.dart';
 import 'package:clima_flutter/services/forecast_parser.dart';
 import 'package:clima_flutter/services/weather.dart';
-import 'package:clima_flutter/services/day_weather_parser.dart';
+import 'package:clima_flutter/services/current_day.dart';
 import 'package:clima_flutter/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -17,18 +17,7 @@ class LocationScreenRedesign extends StatefulWidget{
 class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
   WeatherModel weatherModel = WeatherModel();
   List<ForecastDay> forecastDaysList = <ForecastDay>[];
-  //TODO Refactor to day class
-  int temp = 0;
-  num wind = 0;
-  num humidity = 0;
-  num visibility = 0;
-  num maxTemp = 0;
-  num minTemp = 0;
-  num feelsLikeTemp = 0;
-  String conditionText = "";
-  String weatherIcon = "";
-  String weatherMessage = "";
-  String cityName = "New York";
+  late CurrentDay currentDay;
 
   @override
   void initState() {
@@ -38,30 +27,11 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
   }
 
   void updateUI(dynamic weatherData){
-    DayWeatherParser dayWeatherParser = DayWeatherParser(weatherData: weatherData);
-    ForecastParser forecastParser = ForecastParser(weatherData: weatherData);
-    forecastDaysList = forecastParser.forecastList;
-    setState(() {
-      if(weatherData == null){
-        temp= 0;
-        weatherIcon = "Error";
-        weatherMessage = "Unable to fetch weather data";
-        cityName = "";
-        return;
-      }
-      temp = dayWeatherParser.getTemp();
-      cityName = dayWeatherParser.getName();
-      // var condition = weatherParser.getCondition();
-      conditionText = dayWeatherParser.getCondition();
-      wind = dayWeatherParser.getWind();
-      humidity = dayWeatherParser.getHumidity();
-      visibility = dayWeatherParser.getVisibility();
-      maxTemp = dayWeatherParser.getMaxTemp();
-      minTemp = dayWeatherParser.getMinTemp();
-      feelsLikeTemp = dayWeatherParser.getFeelsLikeTemp();
 
-      // weatherIcon = weatherModel.getWeatherIcon(condition);
-      // weatherMessage = weatherModel.getMessage(temp.toInt());
+    setState(() {
+      currentDay = CurrentDay(weatherData: weatherData);
+      ForecastParser forecastParser = ForecastParser(weatherData: weatherData);
+      forecastDaysList = forecastParser.forecastList;
     });
   }
 
@@ -97,7 +67,7 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                       },
                     ),
                     Text(
-                      cityName,
+                      currentDay.cityName,
                       style: const TextStyle(
                         fontSize: 23,
                         fontWeight: FontWeight.w900,
@@ -127,8 +97,8 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                   vertical: 4,
                   horizontal: 15,
                 ),
-                child: const Text(
-                  "Friday 20 January",
+                child: Text(
+                  currentDay.date,
                   style: kTopDateStyle,
                 ),
               ),
@@ -136,13 +106,13 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                 height: 15,
               ),
               Text(
-                conditionText,
+                currentDay.conditionText,
                 style: kConditionTextStyle,
               ),
               SizedBox(
                 height: 185,
                 child: Text(
-                  "$temp°",
+                  "${currentDay.temp}°",
                   style: kBigTempTextStyle,
                 ),
               ),
@@ -166,9 +136,9 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                     SizedBox(
                       width: double.infinity,
                       child:Text(
-                        "Current temperature of $temp° feels like $feelsLikeTemp°.\n"
-                            "Temperatures will reach as high as $maxTemp° and"
-                            " as low as $minTemp°",
+                        "Current temperature of ${currentDay.temp}° feels like ${currentDay.feelsLikeTemp}°.\n"
+                            "Today, temperatures will reach as high as ${currentDay.maxTemp}° and"
+                            " as low as ${currentDay.minTemp}°.",
                         style: kDailySummaryTempStyle,
                       ),
                     ),
@@ -196,21 +166,21 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                   children: [
                     ConditionStatusColumn(
                       icon: Icons.waves,
-                      conditionValue: wind,
+                      conditionValue: currentDay.wind,
                       conditionUnit: "km/h",
                       condition: "Wind",
                       color: kPrimaryColor,
                     ),
                     ConditionStatusColumn(
                       icon: Icons.water_drop_outlined,
-                      conditionValue: humidity,
+                      conditionValue: currentDay.humidity,
                       conditionUnit: "%",
                       condition: "Humidity",
                       color: kPrimaryColor,
                     ),
                     ConditionStatusColumn(
                       icon: Icons.remove_red_eye_outlined,
-                      conditionValue: visibility,
+                      conditionValue: currentDay.visibility,
                       conditionUnit: "km",
                       condition: "Visibility",
                       color: kPrimaryColor,
@@ -221,7 +191,7 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
               Padding(
                 padding: const EdgeInsets.symmetric(
                   horizontal: 30,
-                  vertical: 25,
+                  vertical: 20,
                 ),
                 child: Column(
                   textDirection: TextDirection.ltr,
@@ -236,25 +206,15 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                       ],
                     ),
                     const SizedBox(
-                      height: 20,
+                      height: 15,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        //TODO Refactor ForecastCardWidget
-                        ForecastCardWidget(
-                          date: forecastDaysList[0].date,
-                          avgTemp: forecastDaysList[0].avgTemp,
-
-                        ),
-                        ForecastCardWidget(
-                          date: forecastDaysList[1].date,
-                          avgTemp: forecastDaysList[1].avgTemp,
-                        ),
-                        ForecastCardWidget(
-                          date: forecastDaysList[2].date,
-                          avgTemp: forecastDaysList[2].avgTemp,
-                        ),
+                        for(var day in forecastDaysList)
+                          ForecastCardWidget(
+                            day: day,
+                          ),
                       ],
                     ),
                   ],
@@ -270,10 +230,9 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
 }
 
 class ForecastCardWidget extends StatelessWidget {
-  const ForecastCardWidget({super.key, required this.date, required this.avgTemp});
+  const ForecastCardWidget({super.key, required this.day});
 
-  final String date;
-  final int avgTemp;
+  final ForecastDay day;
 
   @override
   Widget build(BuildContext context) {
@@ -290,7 +249,7 @@ class ForecastCardWidget extends StatelessWidget {
       child: Column(
         children: [
           Text(
-            "$avgTemp°",
+            "${day.avgTemp}°",
             style: kForecastTempStyle,
           ),
           const SizedBox(
@@ -305,7 +264,7 @@ class ForecastCardWidget extends StatelessWidget {
             height: 5,
           ),
           Text(
-            date,
+            day.date,
             style: kForecastDayStyle,
           )
         ],
