@@ -4,15 +4,15 @@ import 'package:intl/intl.dart';
 class ForecastDay{
   final dynamic forecastDay;
   late int avgTemp;
-  late IconData weatherIcon;
+  late String weatherIcon;
   late String _unformattedDate;
   late String date;
 
   ForecastDay({required this.forecastDay}){
     avgTemp =  forecastDay["day"]["avgtemp_c"].round();
+    weatherIcon = _iconNumGetter();
     _unformattedDate = forecastDay["date"];
     _dayFormatter();
-    _iconSelector();
   }
 
   void _dayFormatter(){
@@ -21,9 +21,9 @@ class ForecastDay{
     date = DateFormat("d MMM").format(inputDate);
   }
 
-  void _iconSelector(){
-
-
+  String _iconNumGetter(){
+    String condition = forecastDay["day"]["condition"]["icon"];
+    return condition.split("/").last;
   }
 
 

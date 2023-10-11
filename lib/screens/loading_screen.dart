@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:clima_flutter/screens/location_screen_redesign.dart';
+import 'package:clima_flutter/utilities/constants.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'error_screen.dart';
@@ -40,9 +41,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
+      backgroundColor: kPrimaryColor,
       body: Center(
         child: SpinKitPianoWave(
-          color: Colors.white,
+          color: Colors.black,
           size: 30,
         ),
       ),

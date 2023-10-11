@@ -1,3 +1,4 @@
+import 'package:clima_flutter/screens/city_screen_redesign.dart';
 import 'package:clima_flutter/services/forecastDay.dart';
 import 'package:clima_flutter/services/forecast_parser.dart';
 import 'package:clima_flutter/services/weather.dart';
@@ -78,8 +79,14 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                         Icons.near_me,
                         size: 30,
                       ),
-                      onPressed: (){
-
+                      onPressed: () async {
+                        var typedName = await Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                            builder: (context){
+                          return const CityScreenRedesign();
+                        }
+                        ));
                       },
                     ),
                   ],
@@ -255,10 +262,10 @@ class ForecastCardWidget extends StatelessWidget {
           const SizedBox(
             height: 5,
           ),
-          const Icon(
-            Icons.sunny,
+          ImageIcon(
+            AssetImage("icons/${day.weatherIcon}"),
             color: Colors.black,
-            size: 15,
+            size: 25,
           ),
           const SizedBox(
             height: 5,
