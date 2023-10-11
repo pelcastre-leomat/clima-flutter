@@ -27,7 +27,7 @@ class WeatherModel {
   Future<dynamic> getCityWeather(String cityName) async{
     print(cityName);
     NetworkHelper networkHelper = NetworkHelper(
-        url: '${weatherapiURL}?key=${apiKey}&q=${cityName}&aqi=no');
+        url: '${weatherapiURL}?key=${apiKey}&q=${cityName}&days=3&aqi=no&alerts=no');
 
     return await networkHelper.getData();
   }

@@ -39,6 +39,7 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       body: Container(
         decoration: const BoxDecoration(
           color: kPrimaryColor,
@@ -81,12 +82,17 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                       ),
                       onPressed: () async {
                         var typedName = await Navigator.push(
-                            context,
-                            MaterialPageRoute(
+                          context,
+                          MaterialPageRoute(
                             builder: (context){
-                          return const CityScreenRedesign();
+                              return const CityScreenRedesign();
+                            }
+                          )
+                        );
+                        if(typedName != null){
+                          var weatherData = await weatherModel.getCityWeather(typedName);
+                          updateUI(weatherData);
                         }
-                        ));
                       },
                     ),
                   ],
