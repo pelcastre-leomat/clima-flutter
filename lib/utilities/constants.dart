@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
-//const Color kPrimaryColor = Color(0xffffe142);
-const Color kPrimaryColor = Color(0xffbbff94);
+const Color kPrimaryColor = Color(0xffffe142);
+// const Color kPrimaryColor = Color(0xffddff00);
 
+const kCityName = TextStyle(
+  fontSize: 23,
+  fontWeight: FontWeight.w900,
+);
 
 const kTempTextStyle = TextStyle(
   fontFamily: 'Spartan MB',
@@ -82,4 +86,9 @@ const kErrorScreenStyle = TextStyle(
   fontSize: 25,
   fontWeight: FontWeight.w600,
   color: Colors.black,
+);
+
+const kCityInputLabelStyle = TextStyle(
+  fontSize: 22,
+  fontWeight: FontWeight.w600,
 );

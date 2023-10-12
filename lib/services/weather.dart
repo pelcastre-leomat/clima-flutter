@@ -14,18 +14,17 @@ const weatherapiURL = "http://api.weatherapi.com/v1/forecast.json";
 class WeatherModel {
 
   Future<dynamic> getLocationWeather() async {
-    // Location location = Location();
-    // await location.getCurrentLocation().timeout(const Duration(seconds: 5));
-    // NetworkHelper networkHelper = NetworkHelper(
-    //     url: "${weatherapiURL}?key=${apiKey}&q=${location.latitude},${location.longitude}&days=3&aqi=no&alerts=no");
-    // return await networkHelper.getData();
+    Location location = Location();
+    await location.getCurrentLocation().timeout(const Duration(seconds: 5));
+    NetworkHelper networkHelper = NetworkHelper(
+        url: "${weatherapiURL}?key=${apiKey}&q=${location.latitude},${location.longitude}&days=3&aqi=no&alerts=no");
+    return await networkHelper.getData();
 
-    FakeNetworkHelper fakeNetworkHelper = FakeNetworkHelper();
-    return await fakeNetworkHelper.getData().timeout(Duration(seconds: 3));
+    // FakeNetworkHelper fakeNetworkHelper = FakeNetworkHelper();
+    // return await fakeNetworkHelper.getData().timeout(Duration(seconds: 3));
   }
 
   Future<dynamic> getCityWeather(String cityName) async{
-    print(cityName);
     NetworkHelper networkHelper = NetworkHelper(
         url: '${weatherapiURL}?key=${apiKey}&q=${cityName}&days=3&aqi=no&alerts=no');
 

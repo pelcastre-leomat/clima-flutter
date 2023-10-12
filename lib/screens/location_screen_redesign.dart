@@ -24,6 +24,7 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
   void initState() {
     super.initState();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     updateUI(widget.locationWeather);
   }
 
@@ -70,14 +71,11 @@ class _LocationScreenStateRedesign extends State<LocationScreenRedesign> {
                     ),
                     Text(
                       currentDay.cityName,
-                      style: const TextStyle(
-                        fontSize: 23,
-                        fontWeight: FontWeight.w900,
-                      ),
+                      style: kCityName,
                     ),
                     IconButton(
                       icon: const Icon(
-                        Icons.near_me,
+                        Icons.settings,
                         size: 30,
                       ),
                       onPressed: () async {

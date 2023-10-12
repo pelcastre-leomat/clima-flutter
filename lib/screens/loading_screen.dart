@@ -20,6 +20,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
   void initState() {
     getLocationData();
     SystemChrome.setEnabledSystemUIMode(SystemUiMode.manual, overlays: []);
+    SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
     super.initState();
   }
 
