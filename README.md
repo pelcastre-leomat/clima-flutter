@@ -1,16 +1,15 @@
-# clima_flutter
 
-A flutter weather app
+![Collection](https://github.com/pelcastre-leomat/clima-flutter/assets/61279897/001749c4-d771-4bf1-bcc1-5f78a3c9db09)
 
-## Getting Started
+# Clima
+A WIP no bells and whistles weather app with a simple and minimalistic design based on Desire Creative Agency's <a href=https://dribbble.com/shots/20675054-Mobile-Weather-app>beautiful design</a>. In it's current state, the app is a proof of concept, not intended for daily use. An API key is provided inside for easy, no setup testing.
 
-This project is a starting point for a Flutter application.
+# To-do
+- Allow for input of own API key
+- Implement modular color picking
+- Implement forecast card element screen
+- Pull down to refresh
 
-A few resources to get you started if this is your first Flutter project:
+# Suggestions
+Do you have suggestions? Create an issue and I'll get to them soon!
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
